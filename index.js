@@ -1,21 +1,6 @@
 ﻿
-
 //主
 (function () {
-
-
-
-    var Directory = require('./lib/Directory');
-
-    var dir = 'E:/iPhone/Photo/2014-10-12/';
-    var dir = 'J:/BaiduYunDownload/Panoramio/build';
-    Directory.eachFile(dir, function (file, stat) {
-
-        console.log(file);
-        console.log(stat);
-    });
-
-    return;
 
     var Process = require('./modules/Process');
     Process.init();
@@ -52,15 +37,9 @@
 
         });
 
+
     });
 
-
-    
-
-
-
-   
-   
 
 
 })();

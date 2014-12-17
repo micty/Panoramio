@@ -3,8 +3,8 @@
 
 ### Panoramio 简介
 
-> Panoramio 隶属于Google的免费照片上传网站，提供无限的相册空间，单张照片最大25M。
-该网站上传的照片主要用于Google Earth上的实景照片，上传照片后可以在卫星地图上进行定位（Google建议这样做），照片经过审核之后即可出现在Google Earth 和 Google卫星地图上。
+> Panoramio 隶属于 Google 的免费照片上传网站，提供无限的相册空间，单张照片最大 25M。
+该网站上传的照片主要用于 Google Earth 上的实景照片，上传照片后可以在卫星地图上进行定位（Google 建议这样做），照片经过审核之后即可出现在 Google Earth 和 Google 卫星地图上。
 
 ### 本项目简介
 原始的 [www.panoramio.com](http://www.panoramio.com/user/5167299) 网站提供的功能非常有限，包括上传照片、定位、打标签、按页查看照片列表等。对于拥有大量照片的用户来说，要进行进一步的操作很受限。通过本项目可以做到：
