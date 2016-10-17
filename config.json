@@ -1,0 +1,57 @@
+﻿{
+    "/User": {
+        "id": "5167299",
+        "url": "https://ssl.panoramio.com/user/{id}",
+        "cache": true,
+        "html": {
+            "file": "{dir}/data/{id}/html/index.html",
+            "write": true
+        },
+        "json": {
+            "file": "{dir}/data/{id}/json/index.json",
+            "write": true
+        }
+    },
+    "/Page": {
+        "url": "https://ssl.panoramio.com/user/{userId}?photo_page={no}",
+        "cache": true,
+        "html": {
+            "file": "{dir}/data/{userId}/html/{sn}.html",
+            "write": true
+        },
+        "json": {
+            "file": "{dir}/data/{userId}/json/{sn}.json",
+            "write": true
+        }
+    },
+
+    "/Photo": {
+        "url": "https://ssl.panoramio.com/photo/{id}",
+        "cache": true,
+        "html": {
+            "file": "{dir}/data/global/html/photo/{id}.html",
+            "write": true
+        },
+        "json": {
+            "file": "{dir}/data/global/json/photo/{id}.json",
+            "write": true
+        }
+    },
+
+    "/Image": {
+        "medium": {
+            "url": "https://mw2.google.com/mw-panoramio/photos/medium/{id}.jpg",
+            "file": "{dir}/data/global/image/medium/{id}.jpg"
+        },
+        "large": {
+            "url": "https://static.panoramio.com.storage.googleapis.com/photos/large/{id}.jpg",
+            "file": "{dir}/data/global/image/large/{id}.jpg"
+        },
+        "origin": {
+            "url": "https://ssl.panoramio.com/photos/d/{id}.jpg",
+            "file": "{dir}/data/global/image/origin/{id}.jpg"
+        },
+        "cache": true
+    }
+
+}

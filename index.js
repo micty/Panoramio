@@ -1,45 +1,110 @@
-﻿
-//主
-(function () {
-
-    var Process = require('./modules/Process');
-    Process.init();
-
-    var $ = require('./lib/MiniQuery');
-
-    var User = require('./modules/User');
-    var Page = require('./modules/Page');
-    var Photo = require('./modules/Photo');
 
 
-    var id = Process.getUserId();
+var defineJS = require('./f/defineJS');
 
 
-    User.get(id, function (user) {
+defineJS.config({
+    modules: [
+        'lib/',
+        'modules/',
+    ],
+});
 
-        var pageCount = user.pageCount;
 
-        var list = Page.resolve('1n', pageCount);
+defineJS.run(function (require, module) {
 
-        $.Array.each(list, function (no) {
 
-            Page.get({
-                id: user.id,
-                no: no,
-                count: pageCount,
-                fn: function (page) {
-                    $.Array.each(page.ids, function (id, index) {
-                        Photo.get(id);
-                    });
-                }
+    var Config = require('Config');
+    Config.use('./config.json');
 
+    var User = module.require('User');
+
+    var user = new User();
+
+    user.on('get', function (data) {
+
+        var Page = module.require('Page');
+        var count = data.stats.page;
+
+        function request(no) {
+
+            var page = new Page({
+                'id': data.id,
+                'count': count,
+                'no': no,
             });
 
-        });
+            page.on('get', function (data) {
+                if (no < count) {
+                    //request(no + 1);
+                }
+            });
 
+            page.get();
+        }
 
+        //request(1);
+        request(275);
     });
 
+    //user.get();
 
 
-})();
+    var Photo = module.require('Photo');
+    var photo = new Photo({
+        'userId': '5167299',
+        'id': '126458607',
+    });
+
+    photo.on('get', function (data) {
+        console.log(data);
+    });
+
+    //photo.get();
+
+
+    var Image = module.require('Image');
+    var image = new Image({
+        'id': '133807073',
+    });
+
+    //image.on('get', function () {
+
+    //});
+
+    image.get('medium');
+    image.get('large');
+    image.get('origin');
+
+});
+
+
+
+//defineJS.run(function (require) {
+//    var Parser = require('Parser');
+//    var data = Parser.parse('html-test', {
+//        'a': 1,
+//        'b': 2,
+//        'c': {
+//            name: 'micty',
+//            desc: function (html) {
+//                return html.split('-');
+//            },
+//        },
+//        stats: [1000, 2000, new Date(), new String('abcd'), function () {
+//            return {
+//                test: 100,
+//                fnA: function () {
+//                    return ['fn-value', function () {
+//                        return 10023;
+//                    }];
+//                },
+//            };
+//        }],
+//    });
+
+//    console.log(data);
+
+//    var File = require('File');
+//    File.writeJSON('./test.json', data);
+//});

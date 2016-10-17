@@ -1,0 +1,37 @@
+{
+    "statusCode": 200,
+    "body": "����\u0000\u0010JFIF\u0000\u0001\u0001\u0001\u0000H\u0000H\u0000\u0000��\u0000C\u0000\b\u0006\u0006\u0007\u0006\u0005\b\u0007\u0007\u0007\t\t\b\n\f\u0014\r\f\u000b\u000b\f\u0019\u0012\u0013\u000f\u0014\u001d\u001a\u001f\u001e\u001d\u001a\u001c\u001c $.' \",#\u001c\u001c(7),01444\u001f'9=82<.342��\u0000C\u0001\t\t\t\f\u000b\f\u0018\r\r\u00182!\u001c!22222222222222222222222222222222222222222222222222��\u0000\u0011\b\u0000>\u00002\u0003\u0001\"\u0000\u0002\u0011\u0001\u0003\u0011\u0001��\u0000\u001b\u0000\u0000\u0001\u0005\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0004\u0000\u0001\u0002\u0003\u0006\u0005\u0007��\u00001\u0010\u0000\u0002\u0002\u0001\u0002\u0004\u0003\u0007\u0002\u0007\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0000\u0003\u0011\u0004!\u0005\u0012\u00131\"Aa\u0006\u0014\u0015#Qq�\u00072BS�������\u0000\u001a\u0001\u0000\u0002\u0003\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0003\u0001\u0002\u0004\u0005\u0006��\u0000\"\u0011\u0000\u0001\u0004\u0001\u0004\u0002\u0003\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0011\u0012\u0013\u0004\u0014!1\u0003A�����\u0000\f\u0003\u0001\u0000\u0002\u0011\u0003\u0011\u0000?\u0000�\nd�\u0010ի�LU;�r`\u0004Q\u001f�\u000f\u0015\b�(HA���4N�G�1��L�\u00077��\u0014�t��!\u0001*�Z+\u0012\u0001��8��\u001ahC����\u0018/\u0011gj+Z�&�6\u0001c�\u0000ܻ�\t\u0007\u0004�I��t^��{\u0006`,\u0004\u001ea���<Jn\u0012�/�Կ���\\���\\\\H3�|��UӊK�E\f�C x�|\u0003k��o���X�fm,l�?\u00072�r�rs�9K�r\u001a��г�Yv��6B\u001f\n�\f1�\u000e�KO�m6�\n�ń�\u001d�\u0011)�t�Դuyʺ\u001f�pG��2b���\\If�T\u0014U��O�?�E���zdO\u0013��'\u0011����?\u0017�6�����\u000e&���ی\r�f�J��v;��\u0011�܍���~�ǚƆ�������L����DP�<1 :79 짰\u001d�\u000br�\"̒v\u0004\u0019�\f��\u001b\u00023���p�K��߱1\u000eicw�2��F������.�r*]Xl0\u0019\u0004}236���m|\u0003��4z*\u0012�[+-H\u0015�\u0003#�<��\u001dQ\u001e���\n\u0002X��ϙ\u0007y��z�O�\u0017\u0015�\u0016g��:�� )�\u0000�.Πb;�<�WIv�_\bo�>R����,y�\u000f\f7�\n��z�0~]����\u0011\u00034��`\\���\u001eQ(LO@�S��\b�'E�����b��*��",
+    "headers": {
+        "server": "nginx",
+        "date": "Mon, 17 Oct 2016 08:21:04 GMT",
+        "content-type": "image/jpeg;charset=UTF-8",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "vary": "Accept-Encoding",
+        "last-modified": "Sun, 09 Oct 2016 13:44:15 GMT",
+        "etag": "eb53ad912d400071b0e4cdf0e50d9509",
+        "cache-control": "max-age=31536000",
+        "expires": "Tue, 17 Oct 2017 08:21:04 GMT",
+        "set-cookie": [
+            "cid=Cj8DplgEifCjjQ7FIgUBAg==; expires=Thu, 15-Oct-26 08:21:04 GMT; domain=kdweibo.com; path=/"
+        ]
+    },
+    "request": {
+        "uri": {
+            "protocol": "http:",
+            "slashes": true,
+            "auth": null,
+            "host": "kdweibo.com",
+            "port": 80,
+            "hostname": "kdweibo.com",
+            "hash": null,
+            "search": "?id=57f9d92fe4b074ef97884847",
+            "query": "id=57f9d92fe4b074ef97884847",
+            "pathname": "/space/c/photo/load",
+            "path": "/space/c/photo/load?id=57f9d92fe4b074ef97884847",
+            "href": "http://kdweibo.com/space/c/photo/load?id=57f9d92fe4b074ef97884847"
+        },
+        "method": "GET",
+        "headers": {}
+    }
+}

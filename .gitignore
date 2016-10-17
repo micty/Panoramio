@@ -1,7 +1,7 @@
 
-/build
-/database
-/download
+
+/node_modules
+/data
 /logs
 log.txt
 
