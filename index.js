@@ -1,7 +1,5 @@
-
-
+﻿
 var defineJS = require('./f/defineJS');
-
 
 defineJS.config({
     modules: [
@@ -10,51 +8,57 @@ defineJS.config({
     ],
 });
 
-
 defineJS.run(function (require, module) {
-
-
     var Config = require('Config');
     Config.use('./config.json');
 
+    var Log = require('Log');
+
     var User = module.require('User');
+    var user = new User('5167299');
 
-    var user = new User();
+    user.on('get', function (user) {
 
-    user.on('get', function (data) {
-
+        return;
+     
         var Page = module.require('Page');
-        var count = data.stats.page;
+        var total = user.stats.page;        //总页数。
+        var pageNos = Page.resolve('1n', total);
 
-        function request(no) {
+        Log.green('请求的页码: {0}', pageNos.join(',').magenta);
+
+        var maxIndex = pageNos.length - 1;
+        var index = 0;
+
+        function request() {
+            var no = pageNos[index];
+            if (!no) {
+                return;
+            }
 
             var page = new Page({
-                'id': data.id,
-                'count': count,
+                'userId': user.id,
+                'total': total,
                 'no': no,
             });
 
-            page.on('get', function (data) {
-                if (no < count) {
-                    //request(no + 1);
-                }
+            page.on('get', function () {
+                index++;
+                request();
             });
 
             page.get();
         }
 
-        //request(1);
-        request(275);
+        request();
     });
 
-    //user.get();
 
+    user.get();
 
     var Photo = module.require('Photo');
-    var photo = new Photo({
-        'userId': '5167299',
-        'id': '126458607',
-    });
+    var photo = new Photo('95932372');
+    //var photo = new Photo('133807073');
 
     photo.on('get', function (data) {
         console.log(data);
@@ -63,48 +67,16 @@ defineJS.run(function (require, module) {
     //photo.get();
 
 
-    var Image = module.require('Image');
-    var image = new Image({
-        'id': '133807073',
+
+    var Stats = module.require('Stats');
+    //var stats = new Stats('43216978');
+    var stats = new Stats('93315776');
+
+    stats.on('get', function (data) {
+        console.log(data);
     });
 
-    //image.on('get', function () {
+    //stats.get();
 
-    //});
-
-    image.get('medium');
-    image.get('large');
-    image.get('origin');
 
 });
-
-
-
-//defineJS.run(function (require) {
-//    var Parser = require('Parser');
-//    var data = Parser.parse('html-test', {
-//        'a': 1,
-//        'b': 2,
-//        'c': {
-//            name: 'micty',
-//            desc: function (html) {
-//                return html.split('-');
-//            },
-//        },
-//        stats: [1000, 2000, new Date(), new String('abcd'), function () {
-//            return {
-//                test: 100,
-//                fnA: function () {
-//                    return ['fn-value', function () {
-//                        return 10023;
-//                    }];
-//                },
-//            };
-//        }],
-//    });
-
-//    console.log(data);
-
-//    var File = require('File');
-//    File.writeJSON('./test.json', data);
-//});

@@ -1,6 +1,8 @@
-
-
-define('/User', function (require, module, exports) {
+﻿
+/**
+* 照片统计。
+*/
+define('/Stats', function (require, module, exports) {
 
     var $ = require('$');
     var Directory = require('Directory');
@@ -14,9 +16,9 @@ define('/User', function (require, module, exports) {
     /**
     * 构造器。
     */
-    function User(config) {
+    function Stats(config) {
 
-        //重载 User(id)
+        //重载 Stats(id)
         if (typeof config == 'string') {
             config = { 'id': config };
         }
@@ -24,14 +26,15 @@ define('/User', function (require, module, exports) {
         config = Config.get(module.id, config);
 
         var dir = Directory.root();
-        var id = config.id;
+        var id = config.id;             //当前照片 id
 
         var data = {
-            'id': id,
             'dir': dir.slice(0, -1),
+            'id': id,
         };
 
         var url = $.String.format(config.url, data);
+
         var html = config.html;
         var json = config.json;
 
@@ -57,10 +60,8 @@ define('/User', function (require, module, exports) {
 
 
 
-
-
-    User.prototype = { //实例方法
-        constructor: User,
+    Stats.prototype = { //实例方法
+        constructor: Stats,
 
         /**
         * 发起 GET 网络请求以获取信息。
@@ -70,7 +71,7 @@ define('/User', function (require, module, exports) {
             var self = this;
             var meta = this.meta;
             var emitter = meta.emitter;
-     
+
             var api = new API({
                 'cache': meta.cache,
                 'file': meta.html.file,
@@ -80,12 +81,17 @@ define('/User', function (require, module, exports) {
 
             api.on({
                 'success': function (data) {
-
                     if (meta.json.write) {
                         File.writeJSON(meta.json.file, data);
                     }
 
-                    emitter.fire('get',  [data]);
+                    emitter.fire('get', [data]);
+                },
+                'fail': function () {
+                    emitter.fire('get', [null]);
+                },
+                'error': function () {
+                    emitter.fire('get', []);
                 },
             });
 
@@ -107,7 +113,7 @@ define('/User', function (require, module, exports) {
 
     };
 
-    return User;
+    return Stats;
 
 
 

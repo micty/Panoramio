@@ -4,6 +4,21 @@ define('/Photo/Parser', function (require, module, exports) {
 
     var $ = require('$');
 
+    var name$month = {
+        'January': 1,
+        'February': 2,
+        'March': 3,
+        'April': 4,
+        'May': 5,
+        'June': 6,
+        'July': 7,
+        'August': 8,
+        'September': 9,
+        'October': 10,
+        'November': 11,
+        'December': 12,
+    };
+
 
     return exports = {
 
@@ -26,32 +41,32 @@ define('/Photo/Parser', function (require, module, exports) {
             };
         },
 
-        //获取照片的 id
+        //照片的 id
         'id': function (html) {
             return $.String.between(html, 'var photoId = ', ';');
         },
 
-        //获取照片标题
+        //照片标题
         'title': function (html) {
             html = $.String.between(html, '<title>', '</title>');
             html = $.String.between(html, 'Panoramio - Photo of ', '\n');
             return html;
         },
 
-        //获取照片是否被选中
+        //照片是否被选中
         'approved': function (html) {
             html = $.String.between(html, '<div class="photo-page-earth-status">', '</div>');
             return html.indexOf('Selected for Google Maps and Google Earth') > 0;
         },
 
-        //获取照片拍摄地点描述
+        //照片拍摄地点描述
         'place': function (html) {
             html = $.String.between(html, '<p id="place">', '</p>');
             html = $.String.between(html, 'Photo taken in ', '\n');
             return html;
         },
 
-        //获取附近的照片 id 列表
+        //附近的照片 id 列表
         'nearbys': function (html) {
             html = $.String.between(html, '<div id="nearby_photos">', '</a></div>');
             if (!html) {
@@ -87,17 +102,17 @@ define('/Photo/Parser', function (require, module, exports) {
             return a;
         },
 
-        //获取纬度
+        //纬度
         'latitude': function (html) {
             return $.String.between(html, '<abbr class="latitude" title="', '">');
         },
 
-        //获取经度
+        //经度
         'longitude': function (html) {
             return $.String.between(html, '<abbr class="longitude" title="', '">');
         },
 
-        //获取照片的上传时间
+        //照片的上传时间
         'uploadTime': function (html) {
             var html0 = html;
 
@@ -113,21 +128,6 @@ define('/Photo/Parser', function (require, module, exports) {
                     html = html.replace(/,/g, ''); //去掉可能存在的逗号
                     
                     var a = html.split(' ');
-
-                    var name$month = {
-                        'January': 1,
-                        'February': 2,
-                        'March': 3,
-                        'April': 4,
-                        'May': 5,
-                        'June': 6,
-                        'July': 7,
-                        'August': 8,
-                        'September': 9,
-                        'October': 10,
-                        'November': 11,
-                        'December': 12,
-                    };
 
                     var month = name$month[a[0]];
                     var day = parseInt(a[1]);
@@ -210,6 +210,13 @@ define('/Photo/Parser', function (require, module, exports) {
             html = $.String.between(html, '<li>ISO Speed: ', '</li>');
             return html;
         },
+
+        //曝光补偿。 可能不存在
+        'exposureBias': function (html) {
+            html = $.String.between(html, '<li id="tech-details">', '</ul>');
+            html = $.String.between(html, '<li>Exposure Bias: ', '</li>');
+            return html;
+        },
       
         //闪光灯
         'flash': function (html) {
@@ -218,6 +225,42 @@ define('/Photo/Parser', function (require, module, exports) {
             html = '<li>' + a.slice(-1)[0];
             html = $.String.between(html, '<li>', '</li>');
             return html;
+        },
+
+        //评论
+        'comments': function (html) {
+            html = $.String.between(html, '<div id="comments_wrapper">', '</div>\n    <div class="paginator-wrapper">');
+
+            var list = html.split('<div class="comment"');
+
+            list = list.slice(1).map(function (html) {
+                var avatar = $.String.between(html, '<img class="comment-avatar"', '/>');
+                avatar = $.String.between(avatar, 'src="', '"');
+
+
+                var s0 = $.String.between(html, '<div class="comment-author">', '</div>');
+
+                var s1 = $.String.between(s0, '<a href="/user/', '</a>');
+                var a = s1.split('">');
+                var id = a[0];
+                var name = a[1];
+
+                var date = $.String.between(s0, '</a> on ', '\n');
+                var text = $.String.between(html, '<p>', '</p>');
+
+                return {
+                    'author': {
+                        'id': id,
+                        'name': name,
+                        'avatar': avatar,
+                    },
+                    'date': date,
+                    'text': text,
+                };
+            });
+
+            return list;
+
         },
 
         

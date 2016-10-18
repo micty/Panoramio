@@ -23,28 +23,41 @@ define('/User/Parser', function (require, module, exports) {
 
     return {
 
-        //获取用户 id。
+        //用户 id。
         'id': function (html) {
             return $.String.between(html, 'var ownerId = ', ';');
         },
 
-        //获取用户姓名
+        //用户姓名
         'name': function (html) {
             return $.String.between(html, '<title>Panoramio - Photos by ', '\n');
         },
 
-        //获取用户描述
+        //用户描述
         'desc': function (html) {
             return $.String.between(html, 'class="open-quote-img">', '<img alt=""');
         },
 
-        //获取统计数
+        //头像
+        'avatar': function (html) {
+            html = $.String.between(html, '<div id="user-page_main-header">', '<div id="user_profile_info">');
+            html = $.String.between(html, 'src="', '?');
+            return html;
+        },
+
+        //个人网站
+        'website': function (html) {
+            html = $.String.between(html, '<a class="icon_sprite icon_link" href="', '"');
+            return html;
+        },
+
+        //统计数
         'stats': function (html) {
             var stats = getStats(html);
 
             return {
                 'photo': stats[0],
-                'selected': stats[1],
+                'approved': stats[1],
                 'view': stats[2],
 
                 //获取总页数
@@ -61,7 +74,7 @@ define('/User/Parser', function (require, module, exports) {
             };
         },
 
-        //获取标签列表
+        //标签列表
         'tags': function (html) {
             var lines = html.split('\n');
 

@@ -16,11 +16,11 @@
         "url": "https://ssl.panoramio.com/user/{userId}?photo_page={no}",
         "cache": true,
         "html": {
-            "file": "{dir}/data/{userId}/html/{sn}.html",
+            "file": "{dir}/data/{userId}/html/page/{sn}.html",
             "write": true
         },
         "json": {
-            "file": "{dir}/data/{userId}/json/{sn}.json",
+            "file": "{dir}/data/{userId}/json/page/{sn}.json",
             "write": true
         }
     },
@@ -38,7 +38,24 @@
         }
     },
 
+     "/Stats": {
+        "url": "https://ssl.panoramio.com/photo/{id}/stats",
+        "cache": true,
+        "html": {
+            "file": "{dir}/data/global/html/stats/{id}.html",
+            "write": true
+        },
+        "json": {
+            "file": "{dir}/data/global/json/stats/{id}.json",
+            "write": true
+        }
+    },
+
     "/Image": {
+        "thumbnail": {
+            "url": "https://mw2.google.com/mw-panoramio/photos/thumbnail/{id}.jpg",
+            "file": "{dir}/data/global/image/thumbnail/{id}.jpg"
+        },
         "medium": {
             "url": "https://mw2.google.com/mw-panoramio/photos/medium/{id}.jpg",
             "file": "{dir}/data/global/image/medium/{id}.jpg"

@@ -15,6 +15,11 @@ define('/Photo', function (require, module, exports) {
     * 构造器。
     */
     function Photo(config) {
+        //重载 Photo(id)
+        if (typeof config == 'string') {
+            config = { 'id': config };
+        }
+
         config = Config.get(module.id, config);
 
         var dir = Directory.root();
@@ -56,7 +61,7 @@ define('/Photo', function (require, module, exports) {
         constructor: Photo,
 
         /**
-        * 发起 GET 网络请求以获取用户信息。
+        * 发起 GET 网络请求以获取信息。
         */
         get: function () {
 
@@ -73,14 +78,21 @@ define('/Photo', function (require, module, exports) {
 
             api.on({
                 'success': function (data) {
-
                     if (meta.json.write) {
                         File.writeJSON(meta.json.file, data);
                     }
 
                     emitter.fire('get', [data]);
                 },
+                'fail': function () {
+                    emitter.fire('get', [null]);
+                },
+                'error': function () {
+                    emitter.fire('get', []);
+                },
             });
+
+
 
             api.get();
         },

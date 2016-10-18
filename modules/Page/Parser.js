@@ -7,7 +7,7 @@ define('/Page/Parser', function (require, module, exports) {
 
     return exports = {
 
-        //获取所有的照片 id 列表
+        //所有的照片 id 列表
         'ids': function (html) { 
             var a = $.String.between(html, 'var photo_ids = [', '];');
             a = a.match(/\d+/g);
