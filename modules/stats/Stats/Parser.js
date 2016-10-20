@@ -8,10 +8,12 @@ define('/Stats/Parser', function (require, module, exports) {
     return exports = {
 
         //所有者 id
-        'ownerId': function (html) {
+        'userId': function (html) {
             html = $.String.between(html, 'var ownerId = ', ';');
             return html;
         },
+
+        'url': '',
 
         //照片 id
         'photoId': function (html) {

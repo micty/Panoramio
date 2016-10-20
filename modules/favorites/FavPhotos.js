@@ -1,8 +1,8 @@
 ﻿
 /**
-* 照片统计。
+* 用户收藏的图片分页。
 */
-define('/Stats', function (require, module, exports) {
+define('/FavPhotos', function (require, module, exports) {
 
     var $ = require('$');
     var Directory = require('Directory');
@@ -16,21 +16,20 @@ define('/Stats', function (require, module, exports) {
     /**
     * 构造器。
     */
-    function Stats(config) {
-
-        //重载 Stats(id)
-        if (typeof config == 'string') {
-            config = { 'id': config };
-        }
-
+    function FavPhotos(config) {
         config = Config.get(module.id, config);
 
         var dir = Directory.root();
-        var id = config.id;             //当前照片 id
+        var userId = config.userId; 
+        var no = config.no;         //当前页码，从 1 开始。
+        var total = config.total;   //总页数。
+        var sn = no - total;        //编程页码，最后一页为 0，倒数第二页为 -1，倒数第三页为 -2，依次类推。
 
         var data = {
             'dir': dir.slice(0, -1),
-            'id': id,
+            'userId': userId,
+            'no': no,
+            'sn': sn,
         };
 
         var url = $.String.format(config.url, data);
@@ -39,8 +38,10 @@ define('/Stats', function (require, module, exports) {
         var json = config.json;
 
         var meta = {
-            'id': id,
+            'userId': userId,
             'url': url,
+            'no': no,
+            'total': total,
             'cache': config.cache,
             'html': {
                 'file': $.String.format(html.file, data),
@@ -60,15 +61,18 @@ define('/Stats', function (require, module, exports) {
 
 
 
-    Stats.prototype = { //实例方法
-        constructor: Stats,
+
+
+    FavPhotos.prototype = { //实例方法
+        constructor: FavPhotos,
 
         /**
         * 发起 GET 网络请求以获取信息。
         */
-        get: function () {
+        get: function (fn) {
 
-            var self = this;
+            fn && this.on('get', fn);
+
             var meta = this.meta;
             var emitter = meta.emitter;
 
@@ -81,6 +85,14 @@ define('/Stats', function (require, module, exports) {
 
             api.on({
                 'success': function (data) {
+
+                    $.Object.extend(data, {
+                        'userId': meta.userId,
+                        'url': meta.url,
+                        'no': meta.no,
+                        'total': meta.total,
+                    });
+
                     if (meta.json.write) {
                         File.writeJSON(meta.json.file, data);
                     }
@@ -113,7 +125,10 @@ define('/Stats', function (require, module, exports) {
 
     };
 
-    return Stats;
+
+
+
+    return FavPhotos;
 
 
 

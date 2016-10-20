@@ -1,4 +1,6 @@
 ﻿
+var _require = require; //原生的 require
+
 var defineJS = require('./f/defineJS');
 
 defineJS.config({
@@ -9,74 +11,74 @@ defineJS.config({
 });
 
 defineJS.run(function (require, module) {
+
+    //运行子任务。
+    function run(name, arg0, arg1) {
+        var file = './tasks/' + name + '.js';
+        var fn = _require(file);
+
+        var args = [].slice.call(arguments, 1);
+        args = [require, module].concat(args);
+
+        fn.apply(null, args);
+    }
+
+
     var Config = require('Config');
     Config.use('./config.json');
 
-    var Log = require('Log');
 
     var User = module.require('User');
-    var user = new User('5167299');
+    var config = Config.get(module.id);
+    var user = new User(config.userId);
 
+
+    //获取用户头像。
     user.on('get', function (user) {
-
-        return;
-     
-        var Page = module.require('Page');
-        var total = user.stats.page;        //总页数。
-        var pageNos = Page.resolve('1n', total);
-
-        Log.green('请求的页码: {0}', pageNos.join(',').magenta);
-
-        var maxIndex = pageNos.length - 1;
-        var index = 0;
-
-        function request() {
-            var no = pageNos[index];
-            if (!no) {
-                return;
-            }
-
-            var page = new Page({
-                'userId': user.id,
-                'total': total,
-                'no': no,
-            });
-
-            page.on('get', function () {
-                index++;
-                request();
-            });
-
-            page.get();
-        }
-
-        request();
+        run('avatar', user);
     });
+
+    //获取用户的评论分页。
+    user.on('get', function (user) {
+        run('comments', user);
+    });
+
+    //获取用户收藏的摄影师
+    user.on('get', function (user) {
+        run('fav-users', user);
+    });
+
+    //获取用户加入的群组
+    user.on('get', function (user) {
+        run('groups', user);
+    });
+    
+    //获取用户照片的分页数据。
+    user.on('get', function (user) {
+        run('photo-pages', {
+            'user': user,
+            'pageNos': config.pageNos,
+
+            //获取照片详情。
+            'each': function (id, done) {
+                run('photo-detail', id, done);
+            },
+        });
+    });
+
 
 
     user.get();
 
-    var Photo = module.require('Photo');
-    var photo = new Photo('95932372');
-    //var photo = new Photo('133807073');
 
-    photo.on('get', function (data) {
-        console.log(data);
+
+    var Favorites = module.require('Favorites');
+    var fav = new Favorites(config.userId);
+    fav.on('get', function () {
+
     });
 
-    //photo.get();
-
-
-
-    var Stats = module.require('Stats');
-    //var stats = new Stats('43216978');
-    var stats = new Stats('93315776');
-
-    stats.on('get', function (data) {
-        console.log(data);
-    });
-
-    //stats.get();
+    //fav.get();
 
 
 });

@@ -13,10 +13,25 @@ define('/Image', function (require, module, exports) {
     var Emitter = $.require('Emitter');
     var Parser = module.require('Parser');
 
+    var type$name = {
+        'S': 'thumbnail',
+        'M': 'medium',
+        'L': 'large',
+        'X': 'origin',
+    };
+
+
+
     /**
     * 构造器。
     */
     function Image(config) {
+
+        //重载 Image(id)
+        if (typeof config == 'string') {
+            config = { 'id': config };
+        }
+
         config = Config.get(module.id, config);
 
         var dir = Directory.root();
@@ -35,9 +50,11 @@ define('/Image', function (require, module, exports) {
         };
 
         [
+            'thumbnail',
             'medium',
             'large',
             'origin',
+
         ].forEach(function (name) {
 
             var item = config[name];
@@ -63,48 +80,22 @@ define('/Image', function (require, module, exports) {
         * 
         */
         get: function (type) {
-            var Log = require('Log');
+            type = type$name[type] || type;
 
-            var self = this;
+            var Image = require('Image');
             var meta = this.meta;
-            var emitter = meta.emitter;
             var item = meta[type];
+            var emitter = meta.emitter;
 
-            var url = item.url;
-            var file = item.file;
+            Image.get({
+                'cache': meta.cache,
+                'url': item.url,
+                'file': item.file,
 
-            if (meta.cache && File.exists(file)) {
-                Log.green('存在文件: {0}', file);
-                emitter.fire('get', []);
-                return;
-            }
-
-
-            Log.cyan('开始请求: {0}', url);
-
-            var req = request.get(url);
-
-            req.on('error', function () {
-                Log.red('请求错误: {0}', url);
-                console.log(error);
-                emitter.fire('error', [error]);
+                'done': function (error) {
+                    emitter.fire('get', type, [error]);
+                },
             });
-
-            req.on('response', function (response) {
-                Log.green('完成请求: {0}', url);
-
-                Directory.create(file);     //先创建目录。
-
-                var stream = fs.createWriteStream(file);
-                req.pipe(stream);
-
-                Log.yellow('写入文件: {0}', file);
-
-                emitter.fire('get', type, []);
-            });
-
-          
-
         },
 
         /**

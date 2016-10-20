@@ -18,8 +18,6 @@ define('/User/Parser', function (require, module, exports) {
         return stats;
     }
 
-   
-
 
     return {
 
@@ -38,16 +36,48 @@ define('/User/Parser', function (require, module, exports) {
             return $.String.between(html, 'class="open-quote-img">', '<img alt=""');
         },
 
+        //先占位，调用者会改。
+        'url': '',
+        'host': '',
+
+
+        //个人网站
+        'website': function (html) {
+            html = $.String.between(html, '<a class="icon_sprite icon_link" href="', '"');
+            return html;
+        },
+
         //头像
-        'avatar': function (html) {
+        'avatarUrl': function (html) {
             html = $.String.between(html, '<div id="user-page_main-header">', '<div id="user_profile_info">');
             html = $.String.between(html, 'src="', '?');
             return html;
         },
 
-        //个人网站
-        'website': function (html) {
-            html = $.String.between(html, '<a class="icon_sprite icon_link" href="', '"');
+
+        //用户收藏(喜欢)的摄影师。
+        'favUsersUrl': function (html) {
+            html = $.String.between(html, 'id="favourites">', '/span>');
+            html = $.String.between(html, '>', '<');
+            html = html.split('&amp;').join('&');
+
+
+            return html;
+        },
+
+        //用户加入的群组信息。
+        'groupsUrl': function (html) {
+            html = $.String.between(html, '<div id="group_membership_ajax"', '</div>');
+            html = $.String.between(html, 'js_load="', '">');
+
+            return html;
+        },
+
+        //用户收藏(喜欢)的摄影师。
+        'favPhotosUrl': function (html) {
+            html = $.String.between(html, '<a href="/favorites/', '"');
+            html = '/favorites/' + html;
+
             return html;
         },
 
@@ -56,13 +86,18 @@ define('/User/Parser', function (require, module, exports) {
             var stats = getStats(html);
 
             return {
+                //照片总数。
                 'photo': stats[0],
+
+                //选中的照片总数。
                 'approved': stats[1],
+
+                //观看总次数。
                 'view': stats[2],
 
-                //获取总页数
+                //照片总页数。
                 'page': function (html) {
-                    var pageNos = html.match(/photo_page=\d+"/g);
+                    var pageNos = html.match(/photo_page=\d+/g);
 
                     pageNos = pageNos.map(function (item, index) {
                         var a = item.match(/\d+/g);
@@ -70,6 +105,26 @@ define('/User/Parser', function (require, module, exports) {
                     });
 
                     return $.Array.max(pageNos);
+                },
+
+                //评论总页数。
+                'comment': function (html) {
+                    var pageNos = html.match(/comment_page=\d+/g);
+                  
+
+                    pageNos = pageNos.map(function (item, index) {
+                        var a = item.match(/\d+/g);
+                        return parseInt(a[0]);
+                    });
+
+                    return $.Array.max(pageNos);
+                },
+
+                //收藏的照片总数。
+                'fav': function (html) {
+                    html = $.String.between(html, '<a href="/favorites/', '</a>');
+                    html = $.String.between(html, 'title="Favorite photos (', ')');
+                    return parseInt(html) || 0;
                 },
             };
         },

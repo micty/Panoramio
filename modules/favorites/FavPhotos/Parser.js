@@ -1,11 +1,24 @@
 
 
-define('/Page/Parser', function (require, module, exports) {
+define('/FavPhotos/Parser', function (require, module, exports) {
 
     var $ = require('$');
+
+    var pano = {
+        acrylic: {
+            UserPagePhoto: function (item) {
+                return item;
+            },
+        },
+    };
    
 
     return exports = {
+
+        'userId': '',
+        'url': '',
+        'no': 0,
+        'total': 0,
 
         //所有的照片 id 列表
         'ids': function (html) { 
@@ -38,14 +51,7 @@ define('/Page/Parser', function (require, module, exports) {
 
             js = begin + js + end + '; return photos;';
 
-            var list = new Function('pano', js)({
-                acrylic: {
-                    UserPagePhoto: function (item) {
-                        return item;
-                    },
-                },
-            });
-
+            var list = new Function('pano', js)(pano);
             return list;
         },
     };

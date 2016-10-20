@@ -1,43 +1,46 @@
-﻿
 
-define('/Photo', function (require, module, exports) {
+
+define('/Favorites', function (require, module, exports) {
 
     var $ = require('$');
     var Directory = require('Directory');
     var File = require('File');
     var Config = require('Config');
     var API = require('API');
+    var Image = require('Image');
 
     var Emitter = $.require('Emitter');
     var Parser = module.require('Parser');
 
+
     /**
     * 构造器。
     */
-    function Photo(config) {
-        //重载 Photo(id)
+    function Favorites(config) {
+
+        //重载 Favorites(userId)
         if (typeof config == 'string') {
-            config = { 'id': config };
+            config = { 'userId': config };
         }
 
         config = Config.get(module.id, config);
 
         var dir = Directory.root();
-        var id = config.id;             //当前照片 id
+        var userId = config.userId;
 
         var data = {
+            'userId': userId,
             'dir': dir.slice(0, -1),
-            'id': id,
         };
 
         var url = $.String.format(config.url, data);
-
         var html = config.html;
         var json = config.json;
 
         var meta = {
-            'id': id,
+            'userId': userId,
             'url': url,
+            'host': url.split('/').slice(0, 3).join('/'),   
             'cache': config.cache,
             'html': {
                 'file': $.String.format(html.file, data),
@@ -55,19 +58,20 @@ define('/Photo', function (require, module, exports) {
     }
 
 
-
-
-    Photo.prototype = { //实例方法
-        constructor: Photo,
+    //实例方法
+    Favorites.prototype = { 
+        constructor: Favorites,
 
         /**
         * 发起 GET 网络请求以获取信息。
         */
-        get: function () {
+        get: function (fn) {
 
-            var self = this;
+            fn && this.on('get', fn);
+
             var meta = this.meta;
             var emitter = meta.emitter;
+            
 
             var api = new API({
                 'cache': meta.cache,
@@ -78,21 +82,20 @@ define('/Photo', function (require, module, exports) {
 
             api.on({
                 'success': function (data) {
+                    //增加些字段。
+                    data = $.Object.extend(data, {
+                        'userId': meta.userId,
+                        'url': meta.url,
+                        'host': meta.host,
+                    });
+
                     if (meta.json.write) {
                         File.writeJSON(meta.json.file, data);
                     }
 
                     emitter.fire('get', [data]);
                 },
-                'fail': function () {
-                    emitter.fire('get', [null]);
-                },
-                'error': function () {
-                    emitter.fire('get', []);
-                },
             });
-
-
 
             api.get();
         },
@@ -112,7 +115,7 @@ define('/Photo', function (require, module, exports) {
 
     };
 
-    return Photo;
+    return Favorites;
 
 
 

@@ -1,26 +1,115 @@
 ﻿{
+    "": {
+        "userId": "841653",
+
+        "userId": "2732962",
+        "userId": "5167299",
+
+        "pageNos": "2300-"
+    },
+
+
+
     "/User": {
-        "id": "5167299",
         "url": "https://ssl.panoramio.com/user/{id}",
         "cache": true,
         "html": {
-            "file": "{dir}/data/{id}/html/index.html",
+            "file": "./data/{id}/html/index.html",
             "write": true
         },
         "json": {
-            "file": "{dir}/data/{id}/json/index.json",
+            "file": "./data/{id}/json/index.json",
+            "write": true
+        }
+       
+    },
+
+    "/Avatar": {
+        "file": "./data/{userId}/avatar.jpg",
+        "write": true
+    },
+    
+    "/Comments": {
+        "url": "https://ssl.panoramio.com/user/{userId}?comment_page={no}",
+        "cache": true,
+        "html": {
+            "file": "./data/{userId}/html/comments/{sn}.html",
+            "write": true
+        },
+        "json": {
+            "file": "./data/{userId}/json/comments/{sn}.json",
             "write": true
         }
     },
+
+    "/FavUsers": {
+        "cache": true,
+        "html": {
+            "file": "./data/{userId}/html/fav-users.html",
+            "write": true
+        },
+        "json": {
+            "file": "./data/{userId}/json/fav-users.json",
+            "write": true
+        }
+    },
+
+     "/Groups": {
+        "cache": true,
+        "html": {
+            "file": "./data/{userId}/html/groups.html",
+            "write": true
+        },
+        "json": {
+            "file": "./data/{userId}/json/groups.json",
+            "write": true
+        }
+    },
+
+
+
+
+
+    
+    "/Favorites": {
+        "url": "https://ssl.panoramio.com/favorites/{userId}",
+        "cache": true,
+        "html": {
+            "file": "./data/{userId}/html/favorites.html",
+            "write": true
+        },
+        "json": {
+            "file": "./data/{userId}/json/favorites.json",
+            "write": true
+        }
+    },
+
+
+
+     "/FavPhotos": {
+        "url": "https://ssl.panoramio.com/favorites/{userId}?photo_page={no}",
+        "cache": true,
+        "html": {
+            "file": "./data/{userId}/html/fav-photos/{sn}.html",
+            "write": true
+        },
+        "json": {
+            "file": "./data/{userId}/json/fav-photos/{sn}.json",
+            "write": true
+        }
+    },
+
+
+
     "/Page": {
         "url": "https://ssl.panoramio.com/user/{userId}?photo_page={no}",
         "cache": true,
         "html": {
-            "file": "{dir}/data/{userId}/html/page/{sn}.html",
+            "file": "./data/{userId}/html/page/{sn}.html",
             "write": true
         },
         "json": {
-            "file": "{dir}/data/{userId}/json/page/{sn}.json",
+            "file": "./data/{userId}/json/page/{sn}.json",
             "write": true
         }
     },
@@ -29,11 +118,11 @@
         "url": "https://ssl.panoramio.com/photo/{id}",
         "cache": true,
         "html": {
-            "file": "{dir}/data/global/html/photo/{id}.html",
+            "file": "./data/global/html/photo/{id}.html",
             "write": true
         },
         "json": {
-            "file": "{dir}/data/global/json/photo/{id}.json",
+            "file": "./data/global/json/photo/{id}.json",
             "write": true
         }
     },
@@ -42,11 +131,11 @@
         "url": "https://ssl.panoramio.com/photo/{id}/stats",
         "cache": true,
         "html": {
-            "file": "{dir}/data/global/html/stats/{id}.html",
+            "file": "./data/global/html/stats/{id}.html",
             "write": true
         },
         "json": {
-            "file": "{dir}/data/global/json/stats/{id}.json",
+            "file": "./data/global/json/stats/{id}.json",
             "write": true
         }
     },
@@ -54,19 +143,19 @@
     "/Image": {
         "thumbnail": {
             "url": "https://mw2.google.com/mw-panoramio/photos/thumbnail/{id}.jpg",
-            "file": "{dir}/data/global/image/thumbnail/{id}.jpg"
+            "file": "./data/global/image/thumbnail/{id}.jpg"
         },
         "medium": {
             "url": "https://mw2.google.com/mw-panoramio/photos/medium/{id}.jpg",
-            "file": "{dir}/data/global/image/medium/{id}.jpg"
+            "file": "./data/global/image/medium/{id}.jpg"
         },
         "large": {
             "url": "https://static.panoramio.com.storage.googleapis.com/photos/large/{id}.jpg",
-            "file": "{dir}/data/global/image/large/{id}.jpg"
+            "file": "./data/global/image/large/{id}.jpg"
         },
         "origin": {
             "url": "https://ssl.panoramio.com/photos/d/{id}.jpg",
-            "file": "{dir}/data/global/image/origin/{id}.jpg"
+            "file": "./data/global/image/origin/{id}.jpg"
         },
         "cache": true
     }

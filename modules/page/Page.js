@@ -1,6 +1,6 @@
+﻿
 
-
-define('/User', function (require, module, exports) {
+define('/Page', function (require, module, exports) {
 
     var $ = require('$');
     var Directory = require('Directory');
@@ -14,30 +14,32 @@ define('/User', function (require, module, exports) {
     /**
     * 构造器。
     */
-    function User(config) {
-
-        //重载 User(id)
-        if (typeof config == 'string') {
-            config = { 'id': config };
-        }
-
+    function Page(config) {
         config = Config.get(module.id, config);
 
         var dir = Directory.root();
-        var id = config.id;
+        var userId = config.userId; 
+        var no = config.no;         //当前页码，从 1 开始。
+        var total = config.total;   //总页数。
+        var sn = no - total;        //编程页码，最后一页为 0，倒数第二页为 -1，倒数第三页为 -2，依次类推。
 
         var data = {
-            'id': id,
             'dir': dir.slice(0, -1),
+            'userId': userId,
+            'no': no,
+            'sn': sn,
         };
 
         var url = $.String.format(config.url, data);
+
         var html = config.html;
         var json = config.json;
 
         var meta = {
-            'id': id,
+            'userId': userId,
             'url': url,
+            'no': no,
+            'total': total,
             'cache': config.cache,
             'html': {
                 'file': $.String.format(html.file, data),
@@ -59,18 +61,19 @@ define('/User', function (require, module, exports) {
 
 
 
-    User.prototype = { //实例方法
-        constructor: User,
+    Page.prototype = { //实例方法
+        constructor: Page,
 
         /**
         * 发起 GET 网络请求以获取信息。
         */
-        get: function () {
+        get: function (fn) {
 
-            var self = this;
+            fn && this.on('get', fn);
+
             var meta = this.meta;
             var emitter = meta.emitter;
-     
+
             var api = new API({
                 'cache': meta.cache,
                 'file': meta.html.file,
@@ -81,11 +84,24 @@ define('/User', function (require, module, exports) {
             api.on({
                 'success': function (data) {
 
+                    $.Object.extend(data, {
+                        'userId': meta.userId,
+                        'url': meta.url,
+                        'no': meta.no,
+                        'total': meta.total,
+                    });
+
                     if (meta.json.write) {
                         File.writeJSON(meta.json.file, data);
                     }
 
-                    emitter.fire('get',  [data]);
+                    emitter.fire('get', [data]);
+                },
+                'fail': function () {
+                    emitter.fire('get', [null]);
+                },
+                'error': function () {
+                    emitter.fire('get', []);
                 },
             });
 
@@ -107,7 +123,10 @@ define('/User', function (require, module, exports) {
 
     };
 
-    return User;
+
+
+
+    return Page;
 
 
 
