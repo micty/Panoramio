@@ -11,6 +11,7 @@ module.exports = function (require, module, id, done) {
     var Image = module.require('Image');
 
 
+    var fails = [];
 
     //获取照片详情。
     function getDetail(id, done) {
@@ -19,7 +20,7 @@ module.exports = function (require, module, id, done) {
         photo.on('get', function (photo) {
             if (!photo) {
                 Log.red('照片详情处理失败: {0}', id);
-                fail.photos.push(id);
+                fails.push(id);
             }
             done();
         });
@@ -50,7 +51,13 @@ module.exports = function (require, module, id, done) {
         item(id, done);
     });
 
-    tasks.on('all', done);
+    tasks.on('all', function () {
+        if (fails.length > 0) {
+            Log.red('失败的照片 id: {0}', fails.join(', '));
+        }
+
+        done();
+    });
 
 
 
