@@ -2,6 +2,8 @@
 
 module.exports = function (require, module, id, done) {
 
+    console.log(id);
+
     var Log = require('Log');
     var ParallelTasks = require('ParallelTasks');
 

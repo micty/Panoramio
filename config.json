@@ -14,6 +14,10 @@
         "timeout": 25000
     },
 
+     "Image": {
+         "timeout": 25000
+     },
+
 
     "/User": {
         "url": "https://ssl.panoramio.com/user/{id}",

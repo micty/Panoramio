@@ -77,7 +77,13 @@ module.exports = function (require, module, options) {
             //串行处理每张照片。
             photos.on('each', function (id, index, done) {
                 Log.add('页码: {0}    照片: {1}    进度: {2}', page.no.toString().cyan, id.cyan, percent.bgBlue);
-                options.each(id, done);
+                
+                //避免堆栈溢出而挂掉。
+                setTimeout(function () {
+                    options.each(id, done);
+                }, 0);
+
+
             });
 
             //分页内所有照片处理完成。
