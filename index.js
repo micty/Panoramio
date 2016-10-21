@@ -30,6 +30,12 @@ defineJS.run(function (require, module) {
 
     var User = module.require('User');
     var config = Config.get(module.id);
+
+    //接收从命令行输入的参数作为页码。
+    if (process.argv[2]) {
+        config.pageNos = process.argv[2];
+    }
+
     var user = new User(config.userId);
 
 
