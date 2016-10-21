@@ -8,6 +8,11 @@
         "pageNos": "1-"
     },
 
+    "API": {
+        "errorHtml": "<title>Server Error</title>",
+        "retry": 5,
+        "timeout": 25000
+    },
 
 
     "/User": {
