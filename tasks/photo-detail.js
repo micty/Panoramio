@@ -51,6 +51,8 @@ module.exports = function (require, module, id, done) {
         item(id, done);
     });
 
+
+    //子任务并行处理完成。
     tasks.on('all', function () {
         if (fails.length > 0) {
             Log.red('失败的照片 id: {0}', fails.join(', '));

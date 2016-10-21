@@ -66,6 +66,11 @@ module.exports = function (require, module, options) {
 
         //串行处理每一分页。
         pages.on('each', function (page, index, done) {
+            var ids = page.ids;
+            if (!ids) { //发现错误
+                console.log(page);
+            }
+
             var percent = Percent.get(index, total);
             var photos = new SerialTasks(page.ids);
 
