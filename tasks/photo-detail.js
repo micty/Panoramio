@@ -8,7 +8,6 @@ module.exports = function (require, module, id, done) {
 
     var Photo = module.require('Photo');
     var Stats = module.require('Stats');
-    var Image = module.require('Image');
 
 
     var fails = [];

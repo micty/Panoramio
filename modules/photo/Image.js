@@ -40,6 +40,8 @@ define('/Image', function (require, module, exports) {
         var data = {
             'dir': dir.slice(0, -1),
             'id': id,
+            'retry': config.retry,
+            'retriedCount': 0,          //记录已重试的次数。
         };
 
 
@@ -86,14 +88,41 @@ define('/Image', function (require, module, exports) {
             var meta = this.meta;
             var item = meta[type];
             var emitter = meta.emitter;
+            var self = this;
+
+            var url = item.url;
+
+            //重试。
+            function retry() {
+                var Log = require('Log');
+                if (meta.retriedCount < meta.retry) {
+                    meta.retriedCount++;
+                    Log.yellow('开始重试第 {0} 次: {1}', meta.retriedCount, url.cyan);
+                    self.get(type); //重发请求。
+                    return;
+                }
+
+                if (meta.retriedCount > 0) {
+                    Log.red('共重试 {0} 次后依然失败: {1}', meta.retriedCount, url.cyan);
+                }
+
+                var error = new Error('超过最大重试次数。')
+                emitter.fire('get', type, [error]);
+            }
+
 
             Image.get({
                 'cache': meta.cache,
-                'url': item.url,
+                'url': url,
                 'file': item.file,
 
                 'done': function (error) {
-                    emitter.fire('get', type, [error]);
+                    if (error) {
+                        retry();
+                    }
+                    else {
+                        emitter.fire('get', type, [error]);
+                    }
                 },
             });
         },

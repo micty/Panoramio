@@ -94,6 +94,11 @@ module.exports = function (require, module, options) {
             photos.run();
         });
 
+        //全部分页处理完后。
+        pages.on('all', function () {
+            Log.magenta('全部分页处理完!');
+        });
+
         pages.run();
 
     });
