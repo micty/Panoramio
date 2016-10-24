@@ -15,7 +15,7 @@
     },
 
      "Image": {
-         "timeout": 65000
+         "timeout": 55000
      },
 
 
@@ -167,6 +167,8 @@
             "url": "https://ssl.panoramio.com/photos/d/{id}.jpg",
             "file": "./data/global/image/origin/{id}.jpg"
         },
+        "retry": 5,
+        "timeout": 5000,
         "cache": true
     }
 
