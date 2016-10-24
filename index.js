@@ -7,6 +7,7 @@ defineJS.config({
     modules: [
         'lib/',
         'modules/',
+        'tasks/',
     ],
 });
 
@@ -67,8 +68,8 @@ defineJS.run(function (require, module) {
 
             //获取照片详情。
             'each': function (id, done) {
-                run('photo-detail', id, done);
-                //run('photo-image', id, done);
+                //run('photo-detail', id, done);
+                run('photo-image', id, done);
             },
         });
     });

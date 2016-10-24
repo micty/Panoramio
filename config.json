@@ -10,7 +10,7 @@
 
     "API": {
         "errorHtml": "<title>Server Error</title>",
-        "retry": 5,
+        "retry": 10,
         "timeout": 35000
     },
 
@@ -167,8 +167,8 @@
             "url": "https://ssl.panoramio.com/photos/d/{id}.jpg",
             "file": "./data/global/image/origin/{id}.jpg"
         },
-        "retry": 5,
-        "timeout": 5000,
+        "retry": 10,
+        "timeout": 55000,
         "cache": true
     }
 
