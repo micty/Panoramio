@@ -13,9 +13,9 @@ module.exports = function (require, module, id, done) {
 
     //并行处理每种类型照片。
     var tasks = new ParallelTasks([
-        'thumbnail',
-        'medium',
-        'large',
+        //'thumbnail',
+        //'medium',
+        //'large',
         'origin',
     ]);
 
