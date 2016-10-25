@@ -1,7 +1,7 @@
 ﻿
 
 
-module.exports = function (require, module, options) {
+module.exports = function (require, module, user, pageNos, each) {
 
     var Pager = require('Pager');
     var SerialTasks = require('SerialTasks');
@@ -11,8 +11,7 @@ module.exports = function (require, module, options) {
     var Page = module.require('Page');
 
 
-    var user = options.user;
-    var pageNos = options.pageNos;
+   
     var total = user.stats.page;                //总页数。
 
     pageNos = Pager.resolve(pageNos, total);    //要处理的页码列表。
@@ -80,7 +79,7 @@ module.exports = function (require, module, options) {
                 
                 //避免堆栈溢出而挂掉。
                 setTimeout(function () {
-                    options.each(id, done);
+                    each(id, done);
                 }, 0);
 
 

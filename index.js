@@ -24,57 +24,49 @@ defineJS.run(function (require, module) {
         fn.apply(null, args);
     }
 
-
     var Config = require('Config');
-    Config.use('./config.json');
+    Config.use('./config.js');
 
 
+    var Tasks = module.require('Tasks');
     var User = module.require('User');
+
     var config = Config.get(module.id);
-
-    //接收从命令行输入的参数作为页码。
-    if (process.argv[2]) {
-        config.pageNos = process.argv[2];
-    }
-
     var user = new User(config.userId);
 
 
-    //获取用户头像。
-    user.on('get', function (user) {
-        run('avatar', user);
-    });
-
-    //获取用户的评论分页。
-    user.on('get', function (user) {
-        run('comments', user);
-    });
-
-    //获取用户收藏的摄影师
-    user.on('get', function (user) {
-        run('fav-users', user);
-    });
-
-    //获取用户加入的群组
-    user.on('get', function (user) {
-        run('groups', user);
-    });
-    
-    //获取用户照片的分页数据。
-    user.on('get', function (user) {
-        run('photo-pages', {
-            'user': user,
-            'pageNos': config.pageNos,
-
-            //获取照片详情。
-            'each': function (id, done) {
-                run('photo-detail', id, done);
-                //run('photo-image', id, done);
-            },
+    //旁枝（不那么重要的）子任务。
+    Tasks.get('user.').forEach(function (name) {
+        user.on('get', function (user) {
+            run(name, user);
         });
     });
 
 
+
+
+    //主要任务: 获取用户照片的分页数据。
+    user.on('get', function (user) {
+        var ParallelTasks = require('ParallelTasks');
+
+        var pageNos = process.argv[2] || config.pageNos;    //接收从命令行输入的参数作为页码。
+        var list = Tasks.get(process.argv[3]);              //接收从命令行输入的参数作为单个任务。
+
+        run('pages', user, pageNos, function (id, done) {
+
+            //并行处理每种类型。
+            var tasks = new ParallelTasks(list);
+
+            tasks.on('each', function (item, index, done) {
+                run(item, id, done);
+            });
+
+            //子任务并行处理完成。
+            tasks.on('all', done);
+            tasks.run();
+        });
+
+    });
 
     user.get();
 
