@@ -75,7 +75,9 @@ module.exports = function (require, module, user, pageNos, each) {
 
             //串行处理每张照片。
             photos.on('each', function (id, index, done) {
-                Log.add('页码: {0}    照片: {1}    进度: {2}', page.no.toString().cyan, id.cyan, percent.bgBlue);
+                var percent2 = Percent.get(index, ids.length);
+
+                Log.add('页码: {0}   照片: {1}   进度: {2}   进度2: {3}', page.no.toString().cyan, id.cyan, percent.bgBlue, percent2.bgGreen);
                 
                 //避免堆栈溢出而挂掉。
                 setTimeout(function () {
