@@ -28,9 +28,10 @@ define('/Stats', function (require, module, exports) {
         var dir = Directory.root();
         var id = config.id;             //当前照片 id
 
+        //用于 config 中的模板填充。
         var data = {
             'dir': dir.slice(0, -1),
-            'id': id,
+            'photoId': id,
         };
 
         var url = $.String.format(config.url, data);

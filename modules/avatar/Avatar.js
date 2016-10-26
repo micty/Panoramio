@@ -22,6 +22,7 @@ define('/Avatar', function (require, module, exports) {
         var dir = Directory.root();
         var userId = config.userId;
 
+        //用于 config 中的模板填充。
         var data = {
             'userId': userId,
             'dir': dir.slice(0, -1),

@@ -7,7 +7,7 @@ define('/Stats/Parser', function (require, module, exports) {
 
     return exports = {
 
-        //所有者 id
+        //用户 id
         'userId': function (html) {
             html = $.String.between(html, 'var ownerId = ', ';');
             return html;

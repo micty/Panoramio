@@ -27,8 +27,9 @@ define('/User', function (require, module, exports) {
         var dir = Directory.root();
         var id = config.id;
 
+        //用于 config 中的模板填充。
         var data = {
-            'id': id,
+            'userId': id,
             'dir': dir.slice(0, -1),
         };
 

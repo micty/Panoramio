@@ -27,12 +27,20 @@ defineJS.run(function (require, module) {
     var Config = require('Config');
     Config.use('./config.js');
 
+    var config = Config.get(module.id);
+    var userId = config.userId;
+
+    //全局填充 config.js 中的模板。
+    Config.format({
+        'userId': userId,
+    });
+
+
 
     var Tasks = module.require('Tasks');
     var User = module.require('User');
 
-    var config = Config.get(module.id);
-    var user = new User(config.userId);
+    var user = new User(userId);
 
 
     //旁枝（不那么重要的）子任务。

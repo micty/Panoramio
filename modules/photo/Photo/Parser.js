@@ -25,7 +25,7 @@ define('/Photo/Parser', function (require, module, exports) {
         'url': '',
 
         //作者简单信息
-        'author': function (html) {
+        'user': function (html) {
             var s = $.String.between(html, '<div id="profile_name">', '</div>');
 
             var id = $.String.between(s, '/user/', '?with_photo_id');
