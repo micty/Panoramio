@@ -8,8 +8,9 @@ module.exports = {
         userId: '841653',
         userId: '2732962',
         userId: '5167299',
-        userId: '4818033',
-        userId: '1635631',
+        //userId: '4818033',
+        //userId: '1635631',
+        userId: '2259000',
         pageNos: '1-',
     },
 
@@ -18,9 +19,9 @@ module.exports = {
     */
     '/Tasks': [
         'user.avatar',
-        //'user.comments',
-        //'user.fav-users',
-        //'user.groups',
+        'user.comments',
+        'user.fav-users',
+        'user.groups',
 
         'photo.detail',
         'photo.stats',
