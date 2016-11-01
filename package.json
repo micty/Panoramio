@@ -3,7 +3,9 @@
     "version": "0.1.0",
     "description": "",
     "repository": {},
-    "dependencies": {},
+    "dependencies": {
+        "defineJS": ""
+    },
     "devDependencies": {
         "colors": "",
         "exif": "",

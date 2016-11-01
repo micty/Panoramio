@@ -1,7 +1,7 @@
 ﻿
 var _require = require; //原生的 require
 
-var defineJS = require('./f/defineJS');
+var defineJS = require('defineJS');
 
 defineJS.config({
     modules: [
