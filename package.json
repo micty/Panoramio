@@ -4,13 +4,13 @@
     "description": "",
     "repository": {},
     "dependencies": {
-        "defineJS": ""
-    },
-    "devDependencies": {
+        "defineJS": "",
         "colors": "",
         "exif": "",
         "request": "",
         "iconv-lite": ""
+    },
+    "devDependencies": {
     },
     "engines": {
         "node": ">=0.8.0"
